@@ -122,15 +122,7 @@ http://localhost:8000
 
 ---
 
-## 7. (Opcional) Compilar assets
-
-Caso precise compilar arquivos JS ou CSS:
-
-```bash
-npm run dev
-```
-
-## 6. Iniciar tudo com o docker
+## 7. Iniciar tudo com o docker
 
 ```bash
 docker compose build
