@@ -25,7 +25,7 @@ Antes de rodar o projeto, certifique-se de possuir:
 ## 1. Clonar o repositório
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/Agstgrss/payment-gateway-api.git)>
 cd payment-gateway-api
 ```
 
@@ -128,6 +128,25 @@ Caso precise compilar arquivos JS ou CSS:
 
 ```bash
 npm run dev
+```
+
+## 6. Iniciar tudo com o docker
+
+```bash
+docker compose build
+docker compose up
+```
+
+A API ficará disponível exemplo dois 3 containers (APIfeita, Mysql, Api externa):
+
+```
+CONTAINER ID   IMAGE                          COMMAND                  CREATED       STATUS          PORTS
+           NAMES
+dc753949941f   payment-gateway-api-app        "docker-php-entrypoi…"   5 hours ago   Up 44 minutes   0.0.0.0:8000->8000/tcp, [::]:8000->8000/tcp
+           payment_gateway_app
+9ffe345f180f   mysql:8.0                      "docker-entrypoint.s…"   5 hours ago   Up 44 minutes   0.0.0.0:3306->3306/tcp, [::]:3306->3306/tcp
+           payment_gateway_mysql
+f4f43673fc0c   matheusprotzen/gateways-mock   "/app/cli"               5 hours ago   Up 44 minutes   0.0.0.0:3001-3002->3001-3002/tcp, [::]:3001-3002->3001-3002/tcp   payment_gateway_gateways
 ```
 
 ---
