@@ -14,11 +14,10 @@ class DatabaseSeeder extends Seeder
     use WithoutModelEvents;
 
     /**
-     * Seed the application's database.
+     * Seed para o banco
      */
     public function run(): void
     {
-        // Criar usuário de teste
         User::create([
             'name' => 'Test User',
             'email' => 'test@example.com',
@@ -26,7 +25,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'USER',
         ]);
 
-        // Criar usuário admin
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@example.com',
@@ -34,7 +32,6 @@ class DatabaseSeeder extends Seeder
             'role' => 'ADMIN',
         ]);
 
-        // Criar gateways
         Gateway::create([
             'name' => 'Gateway1',
             'is_active' => true,
@@ -47,20 +44,19 @@ class DatabaseSeeder extends Seeder
             'priority' => 2,
         ]);
 
-        // Criar produtos
         Product::create([
             'name' => 'Produto Premium',
-            'amount' => 5000, // 50.00 em reais (em centavos)
+            'amount' => 5111,
         ]);
 
         Product::create([
-            'name' => 'Produto Standard',
-            'amount' => 2000, // 20.00 em reais
+            'name' => 'Produto normal',
+            'amount' => 2000,
         ]);
 
         Product::create([
-            'name' => 'Produto Básico',
-            'amount' => 1000, // 10.00 em reais
+            'name' => 'Produto Basico',
+            'amount' => 1000,
         ]);
     }
 }

@@ -17,7 +17,6 @@ class PurchaseTest extends TestCase
     {
         parent::setUp();
 
-        // Criar dados de teste
         $this->product = Product::create([
             'name' => 'Test Product',
             'amount' => 1000,
@@ -68,7 +67,7 @@ class PurchaseTest extends TestCase
             'quantity' => 1,
             'name' => 'Test Client',
             'email' => 'client@test.com',
-            'card_number' => '123', // Inválido (menos de 16)
+            'card_number' => '123',
             'cvv' => '010'
         ]);
 
@@ -83,7 +82,7 @@ class PurchaseTest extends TestCase
             'name' => 'Test Client',
             'email' => 'client@test.com',
             'card_number' => '5569000000006063',
-            'cvv' => '12' // Inválido
+            'cvv' => '12'
         ]);
 
         $response->assertStatus(422);
@@ -108,7 +107,6 @@ class PurchaseTest extends TestCase
         $response = $this->postJson('/api/purchase', [
             'product_id' => $this->product->id,
             'quantity' => 1,
-            // Faltam name, email, card_number, cvv
         ]);
 
         $response->assertStatus(422);
