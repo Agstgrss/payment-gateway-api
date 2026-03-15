@@ -25,7 +25,7 @@ Antes de rodar o projeto, certifique-se de possuir:
 ## 1. Clonar o repositório
 
 ```bash
-git clone <https://github.com/Agstgrss/payment-gateway-api.git)>
+git clone https://github.com/Agstgrss/payment-gateway-api.git
 cd payment-gateway-api
 ```
 
