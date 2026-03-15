@@ -71,23 +71,8 @@ SANCTUM_STATEFUL_DOMAINS=localhost
 
 ---
 
-## 4. Migrar e popular o banco de dados
 
-Execute as migrations e seeders:
-
-```bash
-php artisan migrate --seed
-```
-
-Isso irá criar:
-
-- tabelas necessárias
-- usuários de teste
-- gateways padrão
-
----
-
-## 5. Rodar os gateways mockados
+## 4. Rodar os gateways mockados
 
 Para simular provedores de pagamento externos, execute:
 
@@ -110,7 +95,7 @@ REMOVE_AUTH=true
 
 ---
 
-## 6. Iniciar o backend Laravel
+## 5. Iniciar o backend Laravel
 
 ```bash
 php artisan serve --host=127.0.0.1 --port=8000
@@ -124,13 +109,29 @@ http://localhost:8000
 
 ---
 
-## 7. Iniciar tudo com o docker
+## 6. Iniciar tudo com o docker
 
 ```bash
 docker compose build
 docker compose up
 docker ps
 ```
+
+## 7. Migrar e popular o banco de dados
+
+Execute as migrations e seeders:
+
+```bash
+php artisan migrate --seed
+```
+
+Isso irá criar:
+
+- tabelas necessárias
+- usuários de teste
+- gateways padrão
+
+---
 
 exemplo, 3 containers rodando (APIfeita, Mysql, Api externa):
 
