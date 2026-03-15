@@ -1,0 +1,49 @@
+services:
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: payment_gateway_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/var/www
+    environment:
+      - DB_HOST=mysql
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+      - DB_DATABASE=payment_gateway_api
+    depends_on:
+      - mysql
+    networks:
+      - payment_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: payment_gateway_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: payment_gateway_api
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - payment_network
+
+  gateways:
+    image: matheusprotzen/gateways-mock
+    container_name: payment_gateway_gateways
+    ports:
+      - "3001:3001"
+      - "3002:3002"
+    networks:
+      - payment_network
+
+networks:
+  payment_network:
+
+volumes:
+  mysql_data:

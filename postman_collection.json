@@ -1,0 +1,337 @@
+{
+  "info": {
+    "name": "Payment Gateway API - Nível 2",
+    "description": "API para testes de pagamentos multi-gateway",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{TOKEN}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "BASE_URL",
+      "value": "http://localhost:8000/api"
+    },
+    {
+      "key": "TOKEN",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Autenticação",
+      "item": [
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"admin@example.com\", \"password\": \"admin123\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["login"]
+            }
+          }
+        },
+        {
+          "name": "Login Usuário Comum",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\": \"test@example.com\", \"password\": \"password\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/login",
+              "host": ["{{BASE_URL}}"],
+              "path": ["login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Compra",
+      "item": [
+        {
+          "name": "Realizar Compra (Sucesso)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"product_id\": 1, \"quantity\": 1, \"name\": \"João Silva\", \"email\": \"joao@example.com\", \"card_number\": \"5569000000006063\", \"cvv\": \"010\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/purchase",
+              "host": ["{{BASE_URL}}"],
+              "path": ["purchase"]
+            }
+          }
+        },
+        {
+          "name": "Compra com Failover",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"product_id\": 1, \"quantity\": 2, \"name\": \"Maria Santos\", \"email\": \"maria@example.com\", \"card_number\": \"5569000000006063\", \"cvv\": \"100\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/purchase",
+              "host": ["{{BASE_URL}}"],
+              "path": ["purchase"]
+            }
+          },
+          "description": "CVV 100 falha no Gateway 1, vai para Gateway 2"
+        },
+        {
+          "name": "Compra - Validação Inválida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"product_id\": 1, \"quantity\": 1, \"name\": \"Cliente\", \"email\": \"cliente@example.com\", \"card_number\": \"123\", \"cvv\": \"010\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/purchase",
+              "host": ["{{BASE_URL}}"],
+              "path": ["purchase"]
+            }
+          },
+          "description": "Card number com menos de 16 dígitos"
+        }
+      ]
+    },
+    {
+      "name": "Produtos",
+      "item": [
+        {
+          "name": "Listar Produtos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/products",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "Criar Produto",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"name\": \"Produto Novo\", \"amount\": 7500}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/products",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products"]
+            }
+          }
+        },
+        {
+          "name": "Detalhe Produto",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/products/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products", "1"]
+            }
+          }
+        },
+        {
+          "name": "Atualizar Produto",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"amount\": 8500}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/products/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products", "1"]
+            }
+          }
+        },
+        {
+          "name": "Deletar Produto",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/products/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["products", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Transações",
+      "item": [
+        {
+          "name": "Listar Transações",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/transactions",
+              "host": ["{{BASE_URL}}"],
+              "path": ["transactions"]
+            }
+          }
+        },
+        {
+          "name": "Detalhe Transação",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/transactions/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["transactions", "1"]
+            }
+          }
+        },
+        {
+          "name": "Reembolsar Transação",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/transactions/1/refund",
+              "host": ["{{BASE_URL}}"],
+              "path": ["transactions", "1", "refund"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Clientes",
+      "item": [
+        {
+          "name": "Listar Clientes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/clients",
+              "host": ["{{BASE_URL}}"],
+              "path": ["clients"]
+            }
+          }
+        },
+        {
+          "name": "Detalhe Cliente",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/clients/1",
+              "host": ["{{BASE_URL}}"],
+              "path": ["clients", "1"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Gateways",
+      "item": [
+        {
+          "name": "Toggle Gateway",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{BASE_URL}}/gateways/1/toggle",
+              "host": ["{{BASE_URL}}"],
+              "path": ["gateways", "1", "toggle"]
+            }
+          }
+        },
+        {
+          "name": "Alterar Prioridade",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"priority\": 1}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/gateways/1/priority",
+              "host": ["{{BASE_URL}}"],
+              "path": ["gateways", "1", "priority"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
