@@ -127,9 +127,10 @@ http://localhost:8000
 ```bash
 docker compose build
 docker compose up
+docker ps
 ```
 
-A API ficará disponível exemplo dois 3 containers (APIfeita, Mysql, Api externa):
+exemplo, 3 containers rodando (APIfeita, Mysql, Api externa):
 
 ```
 CONTAINER ID   IMAGE                          COMMAND                  CREATED       STATUS          PORTS
