@@ -4,6 +4,8 @@ API RESTful desenvolvida em **Laravel** para gerenciar **compras e pagamentos ut
 
 Este projeto simula um ambiente de pagamento real onde diferentes provedores podem ser utilizados para processar transações.
 
+**Existe um arquivo no repositorio chamado GUIDE_TESTS feito exclusivamente para os testes da API**
+
 ---
 
 # Requisitos
