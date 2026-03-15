@@ -1,7 +1,7 @@
 {
   "info": {
-    "name": "Payment Gateway API - Nível 2",
-    "description": "API para testes de pagamentos multi-gateway",
+    "name": "Payment Gateway API - Fluxo de Testes",
+    "description": "Coleção orientada pelos passos do guia de testes (login, CRUD de produtos, fluxo de compra/publicação e rotas privadas).",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "auth": {
@@ -30,6 +30,21 @@
       "item": [
         {
           "name": "Login Admin",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const data = pm.response.json();",
+                  "if (data.token) {",
+                  "    pm.collectionVariables.set('TOKEN', data.token);",
+                  "    pm.environment.set('TOKEN', data.token);",
+                  "    pm.globals.set('TOKEN', data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -44,8 +59,12 @@
             },
             "url": {
               "raw": "{{BASE_URL}}/login",
-              "host": ["{{BASE_URL}}"],
-              "path": ["login"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "login"
+              ]
             }
           }
         },
@@ -65,80 +84,14 @@
             },
             "url": {
               "raw": "{{BASE_URL}}/login",
-              "host": ["{{BASE_URL}}"],
-              "path": ["login"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "login"
+              ]
             }
           }
-        }
-      ]
-    },
-    {
-      "name": "Compra",
-      "item": [
-        {
-          "name": "Realizar Compra (Sucesso)",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"product_id\": 1, \"quantity\": 1, \"name\": \"João Silva\", \"email\": \"joao@example.com\", \"card_number\": \"5569000000006063\", \"cvv\": \"010\"}"
-            },
-            "url": {
-              "raw": "{{BASE_URL}}/purchase",
-              "host": ["{{BASE_URL}}"],
-              "path": ["purchase"]
-            }
-          }
-        },
-        {
-          "name": "Compra com Failover",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"product_id\": 1, \"quantity\": 2, \"name\": \"Maria Santos\", \"email\": \"maria@example.com\", \"card_number\": \"5569000000006063\", \"cvv\": \"100\"}"
-            },
-            "url": {
-              "raw": "{{BASE_URL}}/purchase",
-              "host": ["{{BASE_URL}}"],
-              "path": ["purchase"]
-            }
-          },
-          "description": "CVV 100 falha no Gateway 1, vai para Gateway 2"
-        },
-        {
-          "name": "Compra - Validação Inválida",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\"product_id\": 1, \"quantity\": 1, \"name\": \"Cliente\", \"email\": \"cliente@example.com\", \"card_number\": \"123\", \"cvv\": \"010\"}"
-            },
-            "url": {
-              "raw": "{{BASE_URL}}/purchase",
-              "host": ["{{BASE_URL}}"],
-              "path": ["purchase"]
-            }
-          },
-          "description": "Card number com menos de 16 dígitos"
         }
       ]
     },
@@ -152,8 +105,12 @@
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/products",
-              "host": ["{{BASE_URL}}"],
-              "path": ["products"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "products"
+              ]
             }
           }
         },
@@ -169,14 +126,19 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"name\": \"Produto Novo\", \"amount\": 7500}"
+              "raw": "{\"name\": \"Notebook Gamer\", \"amount\": 500000}"
             },
             "url": {
               "raw": "{{BASE_URL}}/products",
-              "host": ["{{BASE_URL}}"],
-              "path": ["products"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "products"
+              ]
             }
-          }
+          },
+          "description": "Cartão de crédito com transação de R$5.000,00 (500.000 centavos)."
         },
         {
           "name": "Detalhe Produto",
@@ -185,8 +147,13 @@
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/products/1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["products", "1"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
             }
           }
         },
@@ -202,12 +169,17 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\"amount\": 8500}"
+              "raw": "{\"amount\": 550000}"
             },
             "url": {
               "raw": "{{BASE_URL}}/products/1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["products", "1"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
             }
           }
         },
@@ -218,10 +190,97 @@
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/products/1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["products", "1"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
             }
           }
+        }
+      ]
+    },
+    {
+      "name": "Fluxo de Compras",
+      "item": [
+        {
+          "name": "Realizar Compra (sucesso)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"product_id\": 1, \"quantity\": 1, \"name\": \"Augusto\", \"email\": \"augusto@email.com\", \"card_number\": \"5569000000006063\", \"cvv\": \"010\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/purchase",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "purchase"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Compra com fallback (CVV 200)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"product_id\": 1, \"quantity\": 1, \"name\": \"Tester\", \"email\": \"tester@email.com\", \"card_number\": \"5569000000006063\", \"cvv\": \"200\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/purchase",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "purchase"
+              ]
+            }
+          },
+          "description": "CVV 200 aciona erro no Gateway 1 e garante que o Gateway 2 seja acionado."
+        },
+        {
+          "name": "Compra - validação inválida",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"product_id\": 1, \"quantity\": 1, \"name\": \"Cliente\", \"email\": \"cliente@example.com\", \"card_number\": \"123\", \"cvv\": \"010\"}"
+            },
+            "url": {
+              "raw": "{{BASE_URL}}/purchase",
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "purchase"
+              ]
+            }
+          },
+          "description": "Número do cartão com menos de 16 dígitos deve retornar 422."
         }
       ]
     },
@@ -235,20 +294,29 @@
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/transactions",
-              "host": ["{{BASE_URL}}"],
-              "path": ["transactions"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "transactions"
+              ]
             }
           }
         },
         {
-          "name": "Detalhe Transação",
+          "name": "Detalhe de Transação",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/transactions/1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["transactions", "1"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "transactions",
+                "1"
+              ]
             }
           }
         },
@@ -259,8 +327,14 @@
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/transactions/1/refund",
-              "host": ["{{BASE_URL}}"],
-              "path": ["transactions", "1", "refund"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "transactions",
+                "1",
+                "refund"
+              ]
             }
           }
         }
@@ -276,20 +350,29 @@
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/clients",
-              "host": ["{{BASE_URL}}"],
-              "path": ["clients"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "clients"
+              ]
             }
           }
         },
         {
-          "name": "Detalhe Cliente",
+          "name": "Detalhar Cliente",
           "request": {
             "method": "GET",
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/clients/1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["clients", "1"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "clients",
+                "1"
+              ]
             }
           }
         }
@@ -299,14 +382,20 @@
       "name": "Gateways",
       "item": [
         {
-          "name": "Toggle Gateway",
+          "name": "Ativar/Desativar Gateway",
           "request": {
             "method": "PATCH",
             "header": [],
             "url": {
               "raw": "{{BASE_URL}}/gateways/1/toggle",
-              "host": ["{{BASE_URL}}"],
-              "path": ["gateways", "1", "toggle"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "gateways",
+                "1",
+                "toggle"
+              ]
             }
           }
         },
@@ -326,8 +415,14 @@
             },
             "url": {
               "raw": "{{BASE_URL}}/gateways/1/priority",
-              "host": ["{{BASE_URL}}"],
-              "path": ["gateways", "1", "priority"]
+              "host": [
+                "{{BASE_URL}}"
+              ],
+              "path": [
+                "gateways",
+                "1",
+                "priority"
+              ]
             }
           }
         }
